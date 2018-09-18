@@ -1,0 +1,3 @@
+---
+nifi_base_dir: /opt/apps/nifi    
+nifi_single_node: True

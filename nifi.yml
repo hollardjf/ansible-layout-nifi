@@ -1,0 +1,32 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    nifi_version: "1.7.1"
+  pre_tasks:
+    - name: check if nifi archive available
+      local_action: stat path="src/nifi-{{ nifi_version }}-bin.tar.gz"
+      register: file
+    - name: copy archive file from internet
+      get_url:
+        url: "http://apache.crihan.fr/dist/nifi/{{ nifi_version }}/nifi-{{ nifi_version }}-bin.tar.gz"
+        dest: src/nifi-{{ nifi_version }}-bin.tar.gz
+      delegate_to: 127.0.0.1
+      when: file.stat.exists == False    
+    - name: setup NiFi destination
+      file:
+        path: "{{ nifi_base_dir }}"  
+        state: directory     
+    - name: Unarchive NiFi distribution
+      unarchive:
+        src: "src/nifi-{{ nifi_version }}-bin.tar.gz"
+        dest: "{{ nifi_base_dir }}"
+  roles:
+    - role: users_and_groups
+      sansible_users_and_groups_groups:
+        - name: nifi
+      sansible_users_and_groups_users:
+              - name: nifi
+                groups:
+                  - nifi
+    - role: ansible-role-nifi

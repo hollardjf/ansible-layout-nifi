@@ -1,0 +1,5 @@
+---
+- name: ansible-role-nifi
+  src: https://github.com/hollardjf/ansible-role-nifi.git
+- name: users_and_groups
+  src: https://github.com/hollardjf/users_and_groups.git
