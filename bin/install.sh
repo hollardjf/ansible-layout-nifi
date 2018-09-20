@@ -16,4 +16,5 @@ SCRIPT_PLAYBOOK="nifi.yml"
 
 #ansible-playbook -i $SCRIPT_INVENTORY $SCRIPT_PLAYBOOK --extra-vars "vars_files=$SCRIPT_VARS"
 rm -rf *.retry
+mkdir -p src
 ansible-playbook -i $SCRIPT_INVENTORY $SCRIPT_PLAYBOOK --skip-tags service
